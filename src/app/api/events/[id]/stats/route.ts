@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 import { EventManager } from '@/lib/events';
-import { LndClient } from '@/lib/lnd';
-import { BitcoinClient } from '@/lib/bitcoin';
+import { lndClient } from '@/lib/lnd';
+import { bitcoin } from '@/lib/bitcoin';
 
 // Initialize clients and manager
-const lndClient = new LndClient();
-const bitcoinClient = new BitcoinClient();
-const eventManager = new EventManager(lndClient, bitcoinClient);
+// const lndClient = new LndClient();
+// const bitcoinClient = new bitcoin();
+const eventManager = new EventManager(lndClient, bitcoin);
 
 export async function GET(
   request: Request,

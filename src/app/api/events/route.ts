@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
 import { Event } from '@/types/events';
 import { EventManager } from '@/lib/events';
-import { LndClient } from '@/lib/lnd';
-import { BitcoinClient } from '@/lib/bitcoin';
+import { lndClient } from '@/lib/lnd';
+import { bitcoin } from '@/lib/bitcoin';
 
 // Initialize clients and manager
-const lndClient = new LndClient();
-const bitcoinClient = new BitcoinClient();
-const eventManager = new EventManager(lndClient, bitcoinClient);
+// const lndClient = new LndClient();
+// const bitcoin = new BitcoinClient();
+const eventManager = new EventManager(lndClient, bitcoin);
 
 // In-memory storage for events (replace with database in production)
 let events: Event[] = [];
