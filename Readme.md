@@ -24,9 +24,8 @@ For detailed installation, configuration, and usage instructions, see the [BitTi
 
 ---
 
-## Contributors
-
-We would like to acknowledge the following team members for their valuable contributions to the BitTicket project:
+## Team Acknowledgment
+We, the BitTicket team, proudly acknowledge the dedication and hard work of everyone who brought this project to life. Each member contributed their unique skills and passion to build this decentralized Bitcoin-powered ticketing platform.
 
 | Name               | Email                       | GitHub                                  | Role                  |
 |--------------------|-----------------------------|----------------------------------------|-----------------------|
