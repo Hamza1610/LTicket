@@ -24,6 +24,20 @@ For detailed installation, configuration, and usage instructions, see the [BitTi
 
 ---
 
+## Contributors
+
+We would like to acknowledge the following team members for their valuable contributions to the BitTicket project:
+
+| Name               | Email                       | GitHub                                  | Role                  |
+|--------------------|-----------------------------|----------------------------------------|-----------------------|
+| Muhammad Hamza      | hamza.00dev1@gmail.com       | [Hamza1610](https://github.com/Hamza1610)         | Backend Developer      |
+| Precious Chia       | preciouschia19@gmail.com     | [Iwueseiter](https://github.com/Iwueseiter)        | Frontend Developer     |
+| Eleazar Musa       | musaeleazar090@gmail.com      | [anonfedora](https://github.com/anonfedora)        | Backend Developer      |
+| Naim Hussain       | muhdnaimhussain@gmail.com     | [ Husteemah](https://github.com/Hamza1610/LTicket) | Documentation & Smart Contract Developer |
+| Aliu Toheen Olaitan| iamaliutoheeb@gmail.com       | [ianaliutoheeb](https://github.com/ianaliutoheeb)  | Project Manager        |
+| Usman Umar Garba   | ugarba202@gmail.com           | [techusman-codes](https://github.com/techusman-codes) | Quality Assurance (QA) |
+
+
 ## Contact
 
 Maintained by [Naim Hussain (husteemah)](https://github.com/husteem). Feel free to open issues or pull requests.
