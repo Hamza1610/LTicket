@@ -1,116 +1,150 @@
-# Bitcoin-Based Event Ticketing System
+# BitTicket Documentation
 
 A decentralized ticketing platform powered by Bitcoin, allowing event organizers to create and manage events with Bitcoin-based tickets. Each ticket is cryptographically tied to a verifiable Bitcoin transaction, enabling secure ownership verification, resale, and fraud prevention.
 
-## Overview
+# Overview
 
-This application demonstrates how to:
+BitTicket is designed to:
 
-- Create and manage events with Bitcoin-based ticketing
-- Generate and verify tickets using Bitcoin transactions
-- Handle ticket payments via Lightning Network or on-chain transactions
-- Enable secure ticket resale and transfers
-- Verify ticket ownership using blockchain explorers
-- Build a modern UI for event discovery and ticket management
+* Create and manage events with Bitcoin-based ticketing.
+* Generate and verify tickets using Bitcoin transactions.
+* Handle ticket payments via the Lightning Network or on-chain transactions.
+* Enable secure ticket resale and transfers.
+* Verify ticket ownership using blockchain explorers.
+* Build a modern UI for event discovery and ticket management.
+
+---
 
 ## Prerequisites
 
-- Node.js v18 or later
-- Access to an LND node (we use [Polar](https://lightningpolar.com/) for development)
-- Access to a Bitcoin Core node
-- Basic understanding of TypeScript and React
-- Basic understanding of the Lightning Network and Bitcoin blockchain
+* **Node.js v18** or later
+* Access to an **LND node** (we use [Polar](https://lightningpolar.com/) for development)
+* Access to a **Bitcoin Core node**
+* Basic understanding of **TypeScript** and **React**
+* Basic understanding of the **Lightning Network** and **Bitcoin blockchain**
 
-## Getting Started
+---
 
-1. Clone the repository:
+## Quick Start Guide
+
+### **1️⃣ Clone the Repository:**
 
 ```bash
-git clone https://github.com/Hamza1610/bitcoin-ticketing-system.git
-cd bitcoin-ticketing-system
+git clone https://github.com/Hamza1610/LTicket.git
+cd LTicket
 ```
 
-2. Install dependencies:
+### **2️⃣ Install Dependencies:**
 
 ```bash
 npm install
 ```
 
-3. Configure your LND connection:
+### **3️⃣ Configure LND and Bitcoin Nodes:**
 
-   - Open `src/lib/lnd.ts`
-   - Update the `DEFAULT_CONFIG` with your LND node's:
-     - `rpcServer` address
-     - `tlsCertPath` location
-     - `macaroonPath` location
+* Update `src/lib/lnd.ts` with your LND node configurations.
+* Update `src/lib/bitcoin.ts` with your Bitcoin Core node configurations.
 
-4. Configure your Bitcoin Core connection:
-
-   - Open `src/lib/bitcoin.ts`
-   - Update the `DEFAULT_CONFIG` with your Bitcoin node's:
-     - `host` address
-     - `port` number
-     - `username` and `password`
-     - `network` type (mainnet/testnet)
-
-5. Start the development server:
+### **4️⃣ Start the Development Server:**
 
 ```bash
 npm run dev
 ```
 
-## Project Structure
+Visit `http://localhost:3000` to access the application.
+
+---
+
+## Front-End Documentation
+
+The front-end of **BitTicket** is built with **Next.js** and **TypeScript**. Below is a breakdown of the main structure and components:
+
+### **Directory Structure**
 
 ```bash
 src/
-├── app/                    # Next.js app directory
-│   ├── api/               # API routes
-│   │   ├── events/        # Event management endpoints
-│   │   ├── tickets/       # Ticket-related endpoints
-│   │   └── bitcoin/       # Bitcoin-related endpoints
-│   ├── events/            # Event pages
-│   │   ├── create/        # Event creation
-│   │   ├── [id]/          # Event details
+├── app/
+│   ├── events/
+│   │   ├── create/        # Event creation page
+│   │   ├── [id]/          # Event details page
 │   │   └── page.tsx       # Event listing
-│   └── components/        # React components
-├── lib/
-│   ├── lnd.ts            # LND gRPC client
-│   ├── bitcoin.ts        # Bitcoin Core client
-│   ├── events.ts         # Event management logic
-│   └── tickets.ts        # Ticket management logic
-└── types.ts              # TypeScript type definitions
+│   ├── components/
+│   │   ├── EventCard.tsx  # Displays individual event details
+│   │   ├── TicketCard.tsx # Displays ticket information
+│   │   └── NavBar.tsx     # Navigation bar component
+│   ├── layout.tsx         # Main layout configuration
+│   └── page.tsx           # Landing page
 ```
 
-## Key Features
+### **Components Overview**
 
-### 1. Event Management
+* **EventCard.tsx:** Shows event information such as name, date, and location.
+* **TicketCard.tsx:** Displays ticket ownership details and QR code for verification.
+* **NavBar.tsx:** Provides navigation links to Home, Create Event, and My Tickets.
+* **EventForm.tsx:** Handles event creation form submission.
 
-- Create events with metadata (name, date, location, price)
-- Set ticket quantities and pricing
-- Manage event status and visibility
+### **Routes Overview**
 
-### 2. Ticket Issuance
+* `/`: Main landing page
+* `/events`: Lists all available events
+* `/events/create`: Form to create new events
+* `/events/[id]`: Details of a specific event, including purchase options
+* `/tickets/[id]`: Ticket details and verification options
 
-- Generate unique tickets as Bitcoin transactions
-- Support both Lightning and on-chain payments
-- Embed ticket metadata in transactions
-- Optional Ordinal inscriptions for unique ticket identities
+---
 
-### 3. Ticket Verification
+## Deployment Steps
 
-- QR code generation for tickets
-- Blockchain-based ownership verification
-- Real-time payment status monitoring
+### **1️⃣ Deploy on Vercel (Front-end):**
 
-### 4. Resale & Transfers
+* Connect your GitHub repository to Vercel.
+* Configure environment variables for LND and Bitcoin nodes.
+* Deploy the project.
 
-- Peer-to-peer ticket transfer system
-- Secure resale using Bitcoin scripts
-- Transaction history tracking
+### **2️⃣ Deploy LND and Bitcoin Nodes:**
+
+* Use Docker or a VPS to set up LND and Bitcoin Core.
+* Ensure both nodes are accessible via the internet if deploying globally.
+
+### **3️⃣ Configure Front-end to Use Public Endpoints:**
+
+* Update `lnd.ts` and `bitcoin.ts` with public endpoints if necessary.
+
+### **4️⃣ Monitor and Test:**
+
+* Use tools like `lncli` for LND and `bitcoin-cli` for Bitcoin Core to test connectivity.
+
+---
+
+## Usage Instructions
+
+### **Event Management:**
+
+* Navigate to the event creation page.
+* Fill out event details (name, date, location, price).
+* Save the event, which gets registered on the blockchain.
+
+### **Ticket Issuance:**
+
+* Users can select events and purchase tickets.
+* Payments are processed via the Lightning Network or on-chain.
+* Tickets are linked to Bitcoin transactions and can be verified.
+
+### **Ticket Verification:**
+
+* Users can verify ticket ownership using QR codes.
+* Blockchain explorers can be used to check authenticity.
+
+### **Ticket Resale & Transfers:**
+
+* Allows secure, peer-to-peer transfer of tickets.
+* Ticket history is maintained on-chain for transparency.
+
+---
 
 ## API Reference
 
-### Events
+### **Events**
 
 ```typescript
 POST /api/events
@@ -130,7 +164,7 @@ GET /api/events/[id]
 Response: Event
 ```
 
-### Tickets
+### **Tickets**
 
 ```typescript
 POST /api/tickets
@@ -149,31 +183,46 @@ Body: {
 }
 ```
 
+---
+
 ## Best Practices
 
 1. **Security**
-   - Secure storage of event credentials
-   - Proper validation of ticket ownership
-   - Protection against double-spending
+
+   * Secure storage of event credentials.
+   * Proper validation of ticket ownership.
+   * Protection against double-spending.
 
 2. **User Experience**
-   - Clear event discovery interface
-   - Simple ticket purchase flow
-   - Intuitive resale process
+
+   * Clear event discovery interface.
+   * Simple ticket purchase flow.
+   * Intuitive resale process.
 
 3. **Blockchain Integration**
-   - Efficient transaction management
-   - Proper fee handling
-   - Reliable payment confirmation
+
+   * Efficient transaction management.
+   * Proper fee handling.
+   * Reliable payment confirmation.
+
+---
 
 ## Contributing
 
-This is an open-source project. Contributions are welcome:
+1. **Fork the Repository**
+2. **Create a Feature Branch**
+3. **Submit a Pull Request**
 
-1. Fork the repository
-2. Create a feature branch
-3. Submit a pull request
+---
 
 ## License
 
 MIT License - Feel free to use this code for learning and development.
+
+---
+
+## Acknowledgements
+
+* Bitcoin Core Development Team
+* Lightning Network Contributors
+* Next.js Community
