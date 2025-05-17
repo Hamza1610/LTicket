@@ -1,0 +1,110 @@
+{
+  "info": {
+    "name": "LTicket API Collection",
+    "description": "API collection for the LTicket application",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Events",
+      "item": [
+        {
+          "name": "Get All Events",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/events"
+          }
+        },
+        {
+          "name": "Search Events",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/events",
+            "query": [
+              {
+                "key": "name",
+                "value": "",
+                "description": "Filter by event name"
+              },
+              {
+                "key": "location",
+                "value": "",
+                "description": "Filter by location"
+              },
+              {
+                "key": "status",
+                "value": "",
+                "description": "Filter by status"
+              },
+              {
+                "key": "start",
+                "value": "",
+                "description": "Start date for date range"
+              },
+              {
+                "key": "end",
+                "value": "",
+                "description": "End date for date range"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Create Event",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/events",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Event Name\",\n    \"description\": \"Event Description\",\n    \"date\": \"2024-03-20T00:00:00Z\",\n    \"location\": \"Event Location\",\n    \"price\": 100,\n    \"quantity\": 50,\n    \"paymentMethod\": \"bitcoin\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Invoice",
+      "item": [
+        {
+          "name": "Create Invoice",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/invoice",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"amount\": 1000,\n    \"memo\": \"Test Invoice\",\n    \"expiry\": 3600\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bitcoin",
+      "item": [
+        {
+          "name": "Get Blockchain Info",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/bitcoin/blockchain"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000"
+    }
+  ]
+}
