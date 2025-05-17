@@ -1,5 +1,4 @@
 "use client";
-
 import { InvoiceGenerator } from "@/app/components/invoice-generator";
 
 export default function HomePage() {
