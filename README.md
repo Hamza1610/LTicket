@@ -1,17 +1,17 @@
-# Lightning Invoice App
+# Bitcoin-Based Event Ticketing System
 
-A reference implementation for Africa Free Routing 2025 (Accra) bootcamp students demonstrating how to interact with a Lightning Network node using gRPC and Next.js.
+A decentralized ticketing platform powered by Bitcoin, allowing event organizers to create and manage events with Bitcoin-based tickets. Each ticket is cryptographically tied to a verifiable Bitcoin transaction, enabling secure ownership verification, resale, and fraud prevention.
 
 ## Overview
 
 This application demonstrates how to:
 
-- Connect to an LND node using gRPC
-- Generate Lightning invoices
-- Monitor invoice payment status
-- Build a modern UI for Lightning payments
-- Explore Bitcoin blockchain data in real-time
-- Monitor mempool statistics and transaction fees
+- Create and manage events with Bitcoin-based ticketing
+- Generate and verify tickets using Bitcoin transactions
+- Handle ticket payments via Lightning Network or on-chain transactions
+- Enable secure ticket resale and transfers
+- Verify ticket ownership using blockchain explorers
+- Build a modern UI for event discovery and ticket management
 
 ## Prerequisites
 
@@ -26,8 +26,8 @@ This application demonstrates how to:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/Extheoisah/sample-ln-invoice-generator.git
-cd lightning-invoice-app
+git clone https://github.com/Hamza1610/bitcoin-ticketing-system.git
+cd bitcoin-ticketing-system
 ```
 
 2. Install dependencies:
@@ -65,172 +65,114 @@ npm run dev
 src/
 ├── app/                    # Next.js app directory
 │   ├── api/               # API routes
-│   │   ├── invoice/       # Invoice-related endpoints
+│   │   ├── events/        # Event management endpoints
+│   │   ├── tickets/       # Ticket-related endpoints
 │   │   └── bitcoin/       # Bitcoin-related endpoints
+│   ├── events/            # Event pages
+│   │   ├── create/        # Event creation
+│   │   ├── [id]/          # Event details
+│   │   └── page.tsx       # Event listing
 │   └── components/        # React components
 ├── lib/
 │   ├── lnd.ts            # LND gRPC client
 │   ├── bitcoin.ts        # Bitcoin Core client
-│   └── utils.ts          # Utility functions
+│   ├── events.ts         # Event management logic
+│   └── tickets.ts        # Ticket management logic
 └── types.ts              # TypeScript type definitions
 ```
 
-## Key Concepts
+## Key Features
 
-### 1. LND gRPC Connection
+### 1. Event Management
 
-The `LndClient` class in `src/lib/lnd.ts` handles the gRPC connection to your Lightning node:
+- Create events with metadata (name, date, location, price)
+- Set ticket quantities and pricing
+- Manage event status and visibility
 
-```typescript
-class LndClient {
-  // Establishes secure connection using TLS cert and macaroon
-  private buildServices(): LndServices {
-    const tlsCert = fs.readFileSync(this.config.tlsCertPath);
-    const macaroon = fs.readFileSync(this.config.macaroonPath);
-    // ... setup gRPC connection
-  }
+### 2. Ticket Issuance
 
-  // Create an invoice
-  async createInvoice(amount: number, memo: string, expiry: number): Promise<LndInvoice>
+- Generate unique tickets as Bitcoin transactions
+- Support both Lightning and on-chain payments
+- Embed ticket metadata in transactions
+- Optional Ordinal inscriptions for unique ticket identities
 
-  // Check payment status
-  async checkInvoiceStatus(rHash: Buffer): Promise<LndInvoice>
-}
-```
+### 3. Ticket Verification
 
-### 2. Bitcoin Blockchain Explorer
+- QR code generation for tickets
+- Blockchain-based ownership verification
+- Real-time payment status monitoring
 
-The `BlockchainExplorer` component in `src/app/components/blockchain-explorer.tsx` provides a real-time view of the Bitcoin blockchain:
+### 4. Resale & Transfers
 
-- Live block visualization with drag-to-scroll interface
-- Detailed block information including:
-  - Block height and hash
-  - Transaction count and fees
-  - Block size and weight
-  - Mining difficulty
-  - Timestamp and miner information
-- Transaction details within blocks
-- Real-time mempool statistics:
-  - Unconfirmed transaction count
-  - Memory usage
-  - Fee rates (low, medium, high, urgent priority)
-  - Minimum relay fees
-
-```typescript
-// Example: Fetching block data
-const blockResponse = await fetch("/api/bitcoin/blocks?limit=10");
-const blockData = await blockResponse.json();
-
-// Example: Fetching mempool statistics
-const mempoolResponse = await fetch("/api/bitcoin/mempool");
-const mempoolData = await mempoolResponse.json();
-```
-
-### 3. Invoice Generation
-
-To generate an invoice:
-
-1. The frontend sends amount and memo to `/api/invoice`
-2. The API calls `lndClient.createInvoice()`
-3. Returns a payment request and other invoice details
-
-### 4. Payment Monitoring
-
-The app demonstrates two important patterns:
-
-1. Converting between Buffer and hex strings for gRPC communication
-2. Polling for payment status using `setInterval`
+- Peer-to-peer ticket transfer system
+- Secure resale using Bitcoin scripts
+- Transaction history tracking
 
 ## API Reference
 
-### Generate Invoice
+### Events
 
 ```typescript
-POST /api/invoice
+POST /api/events
 Body: {
-  amount: number;    // Amount in satoshis
-  memo: string;      // Invoice description
-  expiry?: number;   // Expiry in seconds (default: 3600)
+  name: string;
+  date: string;
+  location: string;
+  price: number;
+  quantity: number;
+  description: string;
 }
+
+GET /api/events
+Response: Event[]
+
+GET /api/events/[id]
+Response: Event
 ```
 
-### Check Payment Status
+### Tickets
 
 ```typescript
-GET /api/invoice/[rHash]/status
-Response: {
-  isPaid: boolean;
+POST /api/tickets
+Body: {
+  eventId: string;
+  quantity: number;
+  paymentMethod: "lightning" | "onchain";
 }
-```
 
-## Common Tasks
+GET /api/tickets/[id]
+Response: Ticket
 
-### 1. Creating a New Invoice
-
-```typescript
-const invoice = await lndClient.createInvoice(
-  1000,              // amount in sats
-  "Test payment",    // memo
-  3600              // expiry in seconds
-);
-```
-
-### 2. Checking Payment Status
-
-```typescript
-const status = await lndClient.checkInvoiceStatus(rHashBuffer);
-const isPaid = status.state === "SETTLED" || status.settled === true;
-```
-
-### 3. Converting Buffer to Hex
-
-```typescript
-// From Buffer to hex string
-const hexString = buffer.toString("hex");
-
-// From hex string to Buffer
-const buffer = Buffer.from(hexString, "hex");
+POST /api/tickets/[id]/transfer
+Body: {
+  newOwner: string;
+}
 ```
 
 ## Best Practices
 
-1. **Error Handling**: Always wrap LND calls in try-catch blocks
-2. **Type Safety**: Use TypeScript interfaces for all LND responses
-3. **Buffer Handling**: Properly convert between Buffer and hex strings
-4. **Payment Monitoring**: Implement proper cleanup for payment polling
-5. **Security**: Never expose macaroons or TLS certs in the frontend
+1. **Security**
+   - Secure storage of event credentials
+   - Proper validation of ticket ownership
+   - Protection against double-spending
 
-## Common Issues
+2. **User Experience**
+   - Clear event discovery interface
+   - Simple ticket purchase flow
+   - Intuitive resale process
 
-1. **Connection Failed**
-   - Check if LND node is running
-   - Verify TLS cert and macaroon paths
-   - Ensure proper permissions on cert files
-
-2. **Type Errors**
-   - LND returns snake_case properties
-   - Convert to camelCase for frontend use
-   - Use proper TypeScript interfaces
-
-3. **Buffer Handling**
-   - gRPC expects Buffer for binary data
-   - Frontend needs hex strings
-   - Always convert appropriately
-
-## Additional Resources
-
-- [LND API Reference](https://api.lightning.community/)
-- [gRPC Concepts](https://grpc.io/docs/what-is-grpc/core-concepts/)
-- [Polar Documentation](https://lightningpolar.com/docs/intro)
-- [Lightning Network Specifications](https://github.com/lightning/bolts)
+3. **Blockchain Integration**
+   - Efficient transaction management
+   - Proper fee handling
+   - Reliable payment confirmation
 
 ## Contributing
 
-This is a reference implementation for educational purposes. If you find bugs or have improvements:
+This is an open-source project. Contributions are welcome:
 
-1. Open an issue
-2. Submit a pull request
-3. Update documentation
+1. Fork the repository
+2. Create a feature branch
+3. Submit a pull request
 
 ## License
 
