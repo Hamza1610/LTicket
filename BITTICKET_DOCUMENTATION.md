@@ -27,25 +27,25 @@ BitTicket is designed to:
 
 ## Quick Start Guide
 
-### **1️⃣ Clone the Repository:**
+### **1- Clone the Repository:**
 
 ```bash
 git clone https://github.com/Hamza1610/LTicket.git
 cd LTicket
 ```
 
-### **2️⃣ Install Dependencies:**
+### **2- Install Dependencies:**
 
 ```bash
 npm install
 ```
 
-### **3️⃣ Configure LND and Bitcoin Nodes:**
+### **3- Configure LND and Bitcoin Nodes:**
 
 * Update `src/lib/lnd.ts` with your LND node configurations.
 * Update `src/lib/bitcoin.ts` with your Bitcoin Core node configurations.
 
-### **4️⃣ Start the Development Server:**
+### **4- Start the Development Server:**
 
 ```bash
 npm run dev
@@ -95,22 +95,22 @@ src/
 
 ## Deployment Steps
 
-### **1️⃣ Deploy on Vercel (Front-end):**
+### **1- Deploy on Vercel (Front-end):**
 
 * Connect your GitHub repository to Vercel.
 * Configure environment variables for LND and Bitcoin nodes.
 * Deploy the project.
 
-### **2️⃣ Deploy LND and Bitcoin Nodes:**
+### **2- Deploy LND and Bitcoin Nodes:**
 
 * Use Docker or a VPS to set up LND and Bitcoin Core.
 * Ensure both nodes are accessible via the internet if deploying globally.
 
-### **3️⃣ Configure Front-end to Use Public Endpoints:**
+### **3- Configure Front-end to Use Public Endpoints:**
 
 * Update `lnd.ts` and `bitcoin.ts` with public endpoints if necessary.
 
-### **4️⃣ Monitor and Test:**
+### **4- Monitor and Test:**
 
 * Use tools like `lncli` for LND and `bitcoin-cli` for Bitcoin Core to test connectivity.
 
@@ -226,3 +226,4 @@ MIT License - Feel free to use this code for learning and development.
 * Bitcoin Core Development Team
 * Lightning Network Contributors
 * Next.js Community
+
